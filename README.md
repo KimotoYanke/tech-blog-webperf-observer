@@ -1,1 +1,3 @@
-# tech-blog-webperf-observer
+# Webパフォーマンス定期観測
+
+こちらはRetty社内で使われている定期観測システムをやや簡易化させたものです
