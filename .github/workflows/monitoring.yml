@@ -1,0 +1,32 @@
+name: run-monitoring
+
+on:
+  schedule:
+    - cron: '0 0,7,14,21 * * SUN'
+    - cron: '0 4,11,18 * * MON'
+    - cron: '0 1,8,15,22 * * TUE'
+    - cron: '0 5,12,19 * * WED'
+    - cron: '0 2,9,16,23 * * THU'
+    - cron: '0 6,13,20 * * FRI'
+    - cron: '0 3,10,17 * * SAT'
+
+
+jobs:
+  monitoring:
+    timeout-minutes: 60
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - uses: nanasess/setup-chromedriver@v1
+    - uses: actions/setup-node@v3
+      with:
+        node-version: 18
+        cache: 'npm'
+    - name: Running npm ci
+      run: npm ci
+    - name: Run main.ts
+      env:
+        DD_API_KEY: ${{ secrets.DD_API_KEY }}
+        DD_APP_KEY: ${{ secrets.DD_APP_KEY }}
+        ENVIRONMENT: production
+      run: npm run start
